@@ -14,11 +14,19 @@ interface DynamicTagFormProps {
   mode: "create" | "edit";
   initialData?: Record<string, any>;
   onSubmit: (data: Record<string, any>) => void;
-  editIndex?:any,
+  editIndex?: any;
 }
 
-const DynamicForm = ({ category, mode, initialData = {},editIndex=null, onSubmit }: DynamicTagFormProps) => {
-  const [queryOptions, setQueryOptions] = useState<Record<string, IOption[]>>({});
+const DynamicForm = ({
+  category,
+  mode,
+  initialData = {},
+  editIndex = null,
+  onSubmit,
+}: DynamicTagFormProps) => {
+  const [queryOptions, setQueryOptions] = useState<Record<string, IOption[]>>(
+    {}
+  );
 
   const {
     register,
@@ -26,7 +34,7 @@ const DynamicForm = ({ category, mode, initialData = {},editIndex=null, onSubmit
     reset,
     formState: { errors },
   } = useForm({
-    defaultValues:initialData,
+    defaultValues: initialData,
   });
 
   const fetchQueryData = async (queryName: string) => {
@@ -74,7 +82,6 @@ const DynamicForm = ({ category, mode, initialData = {},editIndex=null, onSubmit
 
     loadOptions();
   }, [category]);
-
 
   const renderField = (field: IMetadataConfig) => {
     switch (field.component) {
@@ -131,27 +138,31 @@ const DynamicForm = ({ category, mode, initialData = {},editIndex=null, onSubmit
         return null;
     }
   };
-const onSubmit1=(data:any)=>{
+  const onSubmit1 = (data: any) => {
     const eventId = `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-  const updatedData = { ...data, eventId };
-     onSubmit(updatedData);
-      if (mode === "create") {
-      reset();
-     } else {
-      reset({}); 
+    let updatedData = {};
+    if (editIndex !== null) {
+      updatedData = { ...data, eventId };
+    } else {
+      updatedData = data;
     }
-}
-useEffect(() => {
-  if (editIndex!==null) {
-    reset(initialData);
-  }else{
-    reset({});
-  } 
-}, [initialData,editIndex, reset]);
+
+    onSubmit(updatedData);
+    if (mode === "create") {
+      reset();
+    } else {
+      reset({});
+    }
+  };
+  useEffect(() => {
+    if (editIndex !== null) {
+      reset(initialData);
+    } else {
+      reset({});
+    }
+  }, [initialData, editIndex, reset]);
   return (
-    <form
-      className={styles.form}
-      onSubmit={handleSubmit(onSubmit1)}>
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit1)}>
       {category.metadataConfig.map((field) => (
         <div key={field.key} className={styles.field}>
           <label>{field.label}</label>
