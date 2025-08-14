@@ -141,7 +141,7 @@ const DynamicForm = ({
   const onSubmit1 = (data: any) => {
     const eventId = `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
     let updatedData = {};
-    if (editIndex !== null) {
+    if (editIndex === null) {
       updatedData = { ...data, eventId };
     } else {
       updatedData = data;
