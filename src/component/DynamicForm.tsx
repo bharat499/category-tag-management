@@ -117,9 +117,9 @@ const DynamicForm = ({
     } else {
       updatedData = data;
     }
-
     onSubmit(updatedData);
-      reset(); 
+    initialData={}
+    reset(initialData); 
    
   };
   useEffect(() => {
