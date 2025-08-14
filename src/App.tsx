@@ -29,6 +29,7 @@ import styles from "./App.module.scss";
   const confirmDelete = () => {
      setRecords(records.filter((_, i) => i !== deleteIndex));
     setShowConfirm(false);
+    
   };
   const handleDelete = (index: number) => {
     setDeleteIndex(index);
