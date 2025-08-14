@@ -15,7 +15,7 @@ const TagCategoryCard = (props:ViewListProps) => {
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.title}>Tag Categories</h3>
+      <h3 className={styles.title}>List Tag Categories</h3>
       <div className={styles.tableWrapper}>
         <table className={styles.table}>
           <thead>

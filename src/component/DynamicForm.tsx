@@ -62,14 +62,13 @@ const DynamicForm = ({
             <input
               type={field.type}
               readOnly={field.readOnly}
-              className="border rounded p-2 w-full"
               {...register(field.key, {
                 required: field.required ? `${field.label} is required` : false,
               })}
               name={field.key}
             />
             {errors[field.key] && (
-              <p className="text-red-500 text-sm">
+              <p>
                 {errors[field.key]?.message as string}
               </p>
             )}
@@ -85,7 +84,6 @@ const DynamicForm = ({
         return (
           <>
             <select
-              className="border rounded p-2 w-full"
               {...register(field.key, {
                 required: field.required ? `${field.label} is required` : false,
               })}
@@ -98,7 +96,7 @@ const DynamicForm = ({
               ))}
             </select>
             {errors[field.key] && (
-              <p className="text-red-500 text-sm">
+              <p>
                 {errors[field.key]?.message as string}
               </p>
             )}
