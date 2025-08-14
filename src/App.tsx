@@ -14,8 +14,8 @@ import styles from "./App.module.scss";
     if (editIndex !== null) {
       const updated = [...records];
       updated[editIndex] = data;
-      setRecords(updated);
       setEditIndex(null);
+      setRecords(updated);
     } else {
       setRecords([...records, data]);
     }
@@ -29,7 +29,7 @@ import styles from "./App.module.scss";
   const confirmDelete = () => {
      setRecords(records.filter((_, i) => i !== deleteIndex));
     setShowConfirm(false);
-    
+
   };
   const handleDelete = (index: number) => {
     setDeleteIndex(index);

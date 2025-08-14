@@ -27,7 +27,6 @@ const DynamicForm = ({
   const [queryOptions, setQueryOptions] = useState<Record<string, IOption[]>>(
     {}
   );
-
   const {
     register,
     handleSubmit,
@@ -53,35 +52,7 @@ const DynamicForm = ({
     return [];
   };
 
-  useEffect(() => {
-    const loadOptions = async () => {
-      for (const field of category.metadataConfig) {
-        if (
-          field.component === EMetadataComponent.SELECT &&
-          field.mode === EMetadataSelectMode.QUERY &&
-          field.query
-        ) {
-          const options = await fetchQueryData(field.query);
-          setQueryOptions((prev) => ({ ...prev, [field.key]: options }));
-        }
-      }
-
-      Object.values(category.subCategories).forEach(async (sub) => {
-        for (const field of sub.config) {
-          if (
-            field.component === EMetadataComponent.SELECT &&
-            field.mode === EMetadataSelectMode.QUERY &&
-            field.query
-          ) {
-            const options = await fetchQueryData(field.query);
-            setQueryOptions((prev) => ({ ...prev, [field.key]: options }));
-          }
-        }
-      });
-    };
-
-    loadOptions();
-  }, [category]);
+  
 
   const renderField = (field: IMetadataConfig) => {
     switch (field.component) {
@@ -148,19 +119,45 @@ const DynamicForm = ({
     }
 
     onSubmit(updatedData);
-    if (mode === "create") {
-      reset();
-    } else {
-      reset({});
-    }
+      reset(); 
+   
   };
   useEffect(() => {
     if (editIndex !== null) {
       reset(initialData);
     } else {
-      reset({});
+      reset();
     }
   }, [initialData, editIndex, reset]);
+  useEffect(() => {
+    const loadOptions = async () => {
+      for (const field of category.metadataConfig) {
+        if (
+          field.component === EMetadataComponent.SELECT &&
+          field.mode === EMetadataSelectMode.QUERY &&
+          field.query
+        ) {
+          const options = await fetchQueryData(field.query);
+          setQueryOptions((prev) => ({ ...prev, [field.key]: options }));
+        }
+      }
+
+      Object.values(category.subCategories).forEach(async (sub) => {
+        for (const field of sub.config) {
+          if (
+            field.component === EMetadataComponent.SELECT &&
+            field.mode === EMetadataSelectMode.QUERY &&
+            field.query
+          ) {
+            const options = await fetchQueryData(field.query);
+            setQueryOptions((prev) => ({ ...prev, [field.key]: options }));
+          }
+        }
+      });
+    };
+
+    loadOptions();
+  }, [category]);
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit1)}>
       {category.metadataConfig.map((field) => (

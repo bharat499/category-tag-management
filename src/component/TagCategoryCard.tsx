@@ -9,7 +9,7 @@ interface ViewListProps {
 
 const TagCategoryCard = (props:ViewListProps) => {
   const { data,onEdit, onDelete}=props
-  if (!data.length) return <p>No records found.</p>;
+  if (!data.length) return <h2 className="text-center">No records found.</h2>;
 
   const headers = Object.keys(data[0]);
 
